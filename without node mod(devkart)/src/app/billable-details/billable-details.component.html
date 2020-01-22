@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="container col-md-10 offset-1">
+        <div class="mt-4">
+            <h3 class="ty-heading">Billable Employee Details</h3>
+            <table class="table table-hover table-bordered">
+                <thead class="text-white ty-header">
+                    <tr>
+                        <td>client Id</td>
+                        <td>Employee Name</td>
+                        <td>Date Of Deployment</td>
+                        <td>Contract End Date </td>
+                        <td>Ratecard</td>
+                        <td>Stack</td>
+                        <td>Year Of Experience</td>
+                        <td>Delete</td>
+                        <td>Update</td>
+                        <td>Package</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of clients">
+                        <td>{{data.compId}}</td>
+                        <td>{{data.empName}}</td>
+                        <td>{{data.deployementDate}}</td>
+                        <td>{{data.contractEndDate}}</td>
+                        <td>{{data.rateCardPerMonth}}</td>
+                        <td>{{data.stack}}</td>
+                        <td>{{data.yoe}}</td>
+                        <td><button type="submit" class="btn btn-outline-danger" (click)='delete(data.employeeId)'>Delete</button></td>
+                        <td><button type="submit" class="btn btn-outline-info" (click)='update(data)'>Update</button></td>
+                        <td><button type="submit" class="btn btn-outline-info"  (click)="getPackageForm(data)" data-toggle="modal"
+                            data-target="#exampleModal">
+                            Package</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog"
+    aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <label for="title" class="ty-font heading" class="col mt-3 offset-4">Package of Billable Employees</label>
+            <div class="modal-header">
+              
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form  method="post" #form="ngForm" (ngSubmit)="printPackageDetails(form)">
+                    <div *ngIf="packageDetails">
+                     <input type="hidden" name="compId" #compId='ngModel' [(ngModel)]="packageDetails.compId" ngModel>
+                     <input type="hidden" name="empId" #empId='ngModel' [(ngModel)]="packageDetails.employeeId" ngModel>
+                    <!-- <div class="form-row mt-3">
+                         <div> <br />
+                            <input type="text" class="form-control  inputText"  name="compId"
+                              #compId="ngModel" ngModel required readonly [(ngModel)]='packageDetails.compId'>
+                            <span class="floating-label"></span>
+                
+                          </div> -->
+                          <!-- <div class="form-group col-md-6 ty-font user-input-wrp"> <br />
+                            <input type="text" class="form-control  inputText" id="empName" name="empName"
+                              #empName="ngModel" ngModel required readonly [(ngModel)]='packageDetails.empName'>
+                            <span class="floating-label">Employee Name</span>
+                          </div>
+                    </div> --> 
+                    <div class="form-row mt-3">
+                    <div class="form-group col-md-6 ty-font user-input-wrp"> <br />
+                        <input type="text" class="form-control  inputText" id="employeeName" name="employeeName"
+                          #employeeName="ngModel" value="packageDetails.empName" ngModel required [(ngModel)]="packageDetails.empName" readonly>
+                        <span class="floating-label">Employee Name</span>
+                    </div> 
+                </div>
+                    <div class="form-row mt-3">
+                        <div class="form-group col-md-6 ty-font user-input-wrp"> <br />
+                            <input type="date" class="form-control  inputText" id="dopByTy" name="dopByTy"
+                              #dopByTy="ngModel" ngModel required>
+                            <span class="floating-label">DateOfPaymentByTYSS</span>
+                
+                            
+                          </div>
+                          <div class="form-group col-md-6 ty-font user-input-wrp"> <br />
+                            <input type="date" class="form-control  inputText" id="dopByClient" name="dopByClient"
+                              #dopByClient="ngModel" ngModel required>
+                            <span class="floating-label">DateOfPaymentByClient</span>
+                
+                          </div>
+                    </div>
+                    <div class="form-row mt-3">
+                    <div class="form-group col-md-6 ty-font left user-input-wrp"><br />
+                        <input type="number" class="form-control  inputText" id="paymentByClient" name="paymentByClient"
+                          #paymentByClient="ngModel" ngModel required>
+                        <span class="floating-label">Payment By Client</span>
+                      
+                      </div>
+                      <div class="form-group col-md-6 ty-font user-input-wrp"><br />
+                        <input type="number" class="form-control  inputText" id="paymentByTy" name="paymentByTy"
+                          #paymentByTy="ngModel" ngModel required>
+                        <span class="floating-label">Payment By TYSS</span>
+                       
+                      </div>
+                    </div>
+                    <div class="float-right ty-create-button">
+                        <button type="reset" class="btn btn-outline-info ty-font" data-dismiss="modal">Reset</button>
+                    </div>
+                    <div class="float-right ty-reset-button">
+
+                        <input type="submit" class="btn btn-outline-success ty-font" data-toggle="modal"
+                            data-target=".bd-example-modal-sm">
+                        <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog"
+                            aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <!-- <div class="modal-dialog modal-sm" role="document">
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 
+    <div class=" mt-4 mb-4" id="ty-pagination">
+        <jw-pagination [items]="items" (changePage)="onChangePage($event)"></jw-pagination>
+    </div>
+    </body>
+</html>
